@@ -1,7 +1,5 @@
 # TO-DO: A REST API using Java
 
-Everyone has a TO-DO project in their portfolio. This is mine. :sunglasses:
-
 A complete TO-DO project using Java 17 with Spring (Boot, MVC and Data JPA) to create a REST Server, Maven to manage the dependencies, Lombok and BCrypt to help with the development, H2 Database to persist data and a Dockerfile to manage the deployment in a free [Render](https://render.com/) server.
 
 ## Table of Contents
