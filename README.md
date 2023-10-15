@@ -4,17 +4,16 @@ A complete TO-DO project using Java 17 with Spring (Boot, MVC and Data JPA) to c
 
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
 - [Installation](#installation)
   - [Requirements](#requirements)
   - [Clone](#clone)
   - [Development](#development)
-  - [Build](#build)
-  - [Run](#run)
+  - [Build and Run](#build-and-run)
 - [Usage](#usage)
   - [Endpoints](#endpoints)
   - [Localhost](#localhost)
   - [Production](#production)
+  - [API Client](#api-client)
 - [Tests](#tests)
 - [License](#license)
 - [Contact](#contact)
@@ -46,7 +45,7 @@ Create a local server with Maven
 mvn spring-boot:run
 ```
 
-### Build
+### Build and Run
 
 But if you want to build e deploy the application in a local Docker container, you can use the following commands:
 
