@@ -1,4 +1,4 @@
-# TO-DO: An REST API using Java
+# TO-DO: A REST API using Java
 
 Everyone has a TO-DO project in their portfolio. This is mine. :sunglasses:
 
@@ -96,9 +96,9 @@ The implementation of the tests is still in progress. When it is done, this sect
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See [LICENSE](https://github.com/lucas-kaminski/todo/blob/main/LICENSE) for more information.
 
 ## Contact
 
 Lucas Kaminski - [
-![Linkedin](https://i.stack.imgur.com/gVE0j.png) LinkedIn](https://www.linkedin.com/in/lucas-kaminski/) - [![GitHub](https://i.stack.imgur.com/tskMh.png) GitHub](https://github.com/lucas-kaminski/)
+![Linkedin](https://i.stack.imgur.com/gVE0j.png) LinkedIn](https://www.linkedin.com/in/lucas-kaminski/)
