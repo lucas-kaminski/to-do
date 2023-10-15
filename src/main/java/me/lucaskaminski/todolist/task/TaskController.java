@@ -53,17 +53,22 @@ public class TaskController {
   public ResponseEntity<?> update(@RequestBody TaskModel task, HttpServletRequest request, @PathVariable UUID id) {
     task.setId(id);
     task.setIdUser(UUID.fromString(request.getAttribute("idUser").toString()));
-    var currentTask = this.taskRepository.findById(id).orElse(null);
 
-    if (currentTask == null) {
+    var dbTask = this.taskRepository.findById(id).orElse(null);
+
+    if (dbTask == null) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found");
     }
 
-    Utils.copyNonNullProperties(task, currentTask);
+    if (!dbTask.getIdUser().equals(task.getIdUser())) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You don't have permission to update this task");
+    }
 
-    this.taskRepository.save(currentTask);
+    Utils.copyNonNullProperties(task, dbTask);
 
-    return ResponseEntity.status(HttpStatus.OK).body(currentTask);
+    var taskUpdated = this.taskRepository.save(dbTask);
+
+    return ResponseEntity.status(HttpStatus.OK).body(taskUpdated);
   }
 
 }
