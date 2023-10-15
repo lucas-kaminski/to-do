@@ -30,4 +30,10 @@ public class TaskModel {
   @CreationTimestamp
   private LocalDateTime createdAt;
 
+  public void setTitle(String title) throws IllegalArgumentException {
+    if (title.length() > 50) {
+      throw new IllegalArgumentException("Title must be less than 50 characters");
+    }
+    this.title = title;
+  }
 }
