@@ -11,10 +11,13 @@ A complete TO-DO project using Java 17 with Spring (Boot, MVC and Data JPA) to c
   - [Build and Run](#build-and-run)
 - [Usage](#usage)
   - [Endpoints](#endpoints)
-  - [Localhost](#localhost)
-  - [Production](#production)
+    - [User](#user)
+    - [Task](#task)
+  - [Authentication](#authentication)
   - [API Client](#api-client)
-- [Repository Structure](#repository-structure)
+    - [Localhost](#localhost)
+    - [Production](#production)
+- [Explanations](#explanations)
   - [Files](#files)
   - [Folders](#folders)
 - [Tests](#tests)
@@ -35,7 +38,7 @@ A complete TO-DO project using Java 17 with Spring (Boot, MVC and Data JPA) to c
 Clone this repo to your local machine using:
 
 ```shell
-git clone https://github.com/lucas-kaminski/todo.git`
+git clone https://github.com/lucas-kaminski/todo.git
 ```
 
 ### Development
@@ -50,7 +53,7 @@ mvn spring-boot:run
 
 ### Build and Run
 
-But if you want to build e deploy the application in a local Docker container, you can use the following commands:
+But if you want to build and deploy the application in a local Docker container, you can use the following commands:
 
 Create the JAR file with Maven
 
@@ -71,26 +74,63 @@ To use and test the API, you can configure your favorite REST Client to send req
 
 ### Endpoints
 
-| Authenticated      | Method | Endpoint    | Description                                 |
-| ------------------ | ------ | ----------- | ------------------------------------------- |
-| :x:                | POST   | /user       | Create a new user                           |
-| :heavy_check_mark: | POST   | /tasks      | Create a new task to the authenticated user |
-| :heavy_check_mark: | GET    | /tasks      | Get all tasks from the authenticated user   |
-| :heavy_check_mark: | PUT    | /tasks/{id} | Update a task                               |
+#### User
 
-### Localhost
+| Method | Endpoint | Description                  | Authenticated      |
+| ------ | -------- | ---------------------------- | ------------------ |
+| POST   | /user    | Create a new user            | :x:                |
+| GET    | /user    | Get user data                | :heavy_check_mark: |
+| PUT    | /user    | Update specific data of user | :heavy_check_mark: |
+| DELETE | /user    | Delete user account          | :heavy_check_mark: |
 
-If you are running the application locally, you can use your local IP address to send requests to the API. If your local IP address is `http://localhost`, you can define the port and the endpoint to send requests to the API. For example, to create a new user, you can send a POST request to `http://localhost:8080/user` with the expected payload.
+#### Task
 
-### Production
+| Method | Endpoint   | Description                    | Authenticated      |
+| ------ | ---------- | ------------------------------ | ------------------ |
+| POST   | /task      | Create a new task to user      | :heavy_check_mark: |
+| GET    | /task      | Get all tasks from user        | :heavy_check_mark: |
+| PUT    | /task/{id} | Update specific data of a task | :heavy_check_mark: |
+| DELETE | /task/{id} | Delete a specific task         | :heavy_check_mark: |
 
-If you want to test the API in a production enviroment, you can use the following URL: `https://todo-qazz.onrender.com/`. Following the example above, you can send the same POST request to `https://todo-qazz.onrender.com/user`. Remember, it is a free server, so it can take a few seconds to wake up and respond to your request.
+### Authentication
+
+The method used to authenticate the user is the Basic Authentication with Base64 encoding. To authenticate, you need to send the username and password in the header of the request. For example, if you want to create a new user, you can send a POST request to `/user/` to create a new user with the following payload:
+
+```json
+{
+  "name": "Test",
+  "username": "test",
+  "password": "test"
+}
+```
+
+And, to authenticate, you need to send the username and password in the header of the request, encoded in Base64. In this case, the username and password are `test` and `test`, respectively. So, the encoded string is `dGVzdDp0ZXN0`. You can use the following command to encode the string:
+
+```shell
+echo -n "test:test" | base64
+```
+
+And, finally, you can send requests to protected endpoints by adding the following header to the request:
+
+```json
+{
+  "Authorization": "Basic dGVzdDp0ZXN0"
+}
+```
 
 ### API Client
 
 You can use the following [Apidog Project](https://3a7v3bxt1w.apidog.io) to call the API. It is a free API Client that I've been using to help me with the development/testing of this project.
 
-## Repository Structure
+#### Localhost
+
+If you are running the application locally, you can use your local IP address to send requests to the API. For example, if your local IP address is `http://localhost`, you can send the requests to `http://localhost:8080/`. Following the example above, you can send a POST request to `http://localhost:8080/user` to create a new user.
+
+#### Production
+
+If you want to test the API in a production environment, you don't need to install anything. You can use the following URL to send requests to the API: `https://todo-qazz.onrender.com/`. Following the example above, you can send a POST request to `https://todo-qazz.onrender.com/user` to create your user, and then you can send a POST request to `https://todo-qazz.onrender.com/task` to create your first task.
+
+## Personal explanations
 
 Here's my annotation of the repository structure. Those explanations are based on my personal understanding of the project, so it may not be 100% accurate or complete, but it should give you a general idea of the purpose of each file and folder.
 
@@ -121,9 +161,9 @@ Here's my annotation of the repository structure. Those explanations are based o
 
 ### .vscode
 
-| File            | Description                         |
-| --------------- | ----------------------------------- |
-| extensions.json | Suggestion of extensions for VSCode |
+| File            | Description                          |
+| --------------- | ------------------------------------ |
+| extensions.json | Suggestions of extensions for VSCode |
 
 ### src/main/java/me/lucaskaminski/todolist
 
@@ -133,7 +173,7 @@ Here's my annotation of the repository structure. Those explanations are based o
 | filter                   | Package with filter classes, uses @Component to register classes in Spring, @Autowired to link JpaRepository interfaces and @Override of the doFilterInternal method to intercept requests, using the path string to validate its use                                                                                                                                                                                                       |
 | task & user              | Package with model classes, always has a Repository, a Controller, and a Model. The Repository is the interface that extends JpaRepository, the Controller is the class that receives the requests, registered by @RestController, @Autowired for the repos and mappings for the routes, and the Model is the class that represents the object in the database, uses JBA to map the database and Lombak to generate the getters and setters |
 | utils                    | Package with classes that bring useful methods to the project                                                                                                                                                                                                                                                                                                                                                                               |
-| TodolistApplication.java | Main class of the project                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| TodolistApplication.java | Main class of the project.                                                                                                                                                                                                                                                                                                                                                                                                                  |
 
 ### src/main/resources
 
@@ -147,6 +187,8 @@ Here's my annotation of the repository structure. Those explanations are based o
 
 ...
 
+</details>
+
 ## Tests
 
 The implementation of the tests is still in progress. When it is done, this section will be updated.
@@ -157,5 +199,4 @@ Distributed under the MIT License. See [LICENSE](https://github.com/lucas-kamins
 
 ## Contact
 
-Lucas Kaminski - [
-![Linkedin](https://i.stack.imgur.com/gVE0j.png) LinkedIn](https://www.linkedin.com/in/lucas-kaminski/)
+~ Lucas Kaminski | [LinkedIn](https://www.linkedin.com/in/lucas-kaminski/) | [GitHub](https://github.com/lucas-kaminski)
